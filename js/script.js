@@ -259,6 +259,7 @@ function adicionarAoCarrinho(index) {
 
   // console.log("Produto adicionado ao carrinho: " + produto.produto);
 }
+
 function carrinho() {
   var carrinhoCompras = document.getElementById("compras");
   carrinhoCompras.innerHTML = "";
@@ -266,24 +267,45 @@ function carrinho() {
   if (produtosCarrinho.length === 0) {
     carrinhoCompras.innerHTML = "O carrinho está vazio.";
   } else {
-    carrinhoCompras.innerHTML = '<div class="card">';
+    var cardContainer = document.createElement("div");
+    cardContainer.classList.add("card-container");
+
+    // style cardContainer
+    cardContainer.style.display = "flex";
+    cardContainer.style.flexWrap = "wrap";
+    cardContainer.style.margin = "2.5em";
+
     for (var i = 0; i < produtosCarrinho.length; i++) {
-      carrinhoCompras.innerHTML +=
-        "<div class='card_Carrinho'>" +
-        '<img src="' +
-        produtosCarrinho[i].imagem +
-        '" class="card-img-top" style="width: 10rem" alt="Imagem">' +
-        '<h5 class="card-title">' +
-        produtosCarrinho[i].produto +
-        "</h5>" +
-        '<p class="card-text">' +
-        "R$" +
-        produtosCarrinho[i].preço +
-        "</p>" +
-        "Quantidade: " +
-        produtosCarrinho[i].quantidade +
-        "</div>";
+      var cardDiv = document.createElement("div");
+      cardDiv.classList.add("card_Carrinho");
+
+      var img = document.createElement("img");
+      img.src = produtosCarrinho[i].imagem;
+      img.classList.add("card-img-top");
+      img.style.width = "10rem";
+      img.alt = "Imagem";
+
+      var title = document.createElement("h5");
+      title.classList.add("card-title");
+      title.textContent = produtosCarrinho[i].produto;
+
+      var price = document.createElement("p");
+      price.classList.add("card-text");
+      price.textContent = "R$" + produtosCarrinho[i].preço;
+
+      var quantity = document.createTextNode(
+        "Quantidade: " + produtosCarrinho[i].quantidade
+      );
+
+      cardDiv.appendChild(img);
+      cardDiv.appendChild(title);
+      cardDiv.appendChild(price);
+      cardDiv.appendChild(quantity);
+
+      cardContainer.appendChild(cardDiv);
     }
-    carrinhoCompras.innerHTML += "</div>";
+
+    carrinhoCompras.innerHTML = "";
+    carrinhoCompras.appendChild(cardContainer);
   }
 }
